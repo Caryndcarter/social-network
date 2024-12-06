@@ -1,18 +1,20 @@
 import { Schema, Types, model, type Document } from 'mongoose';
 import moment from 'moment';
 
-interface IThought extends Document {
-    thoughtId: Schema.Types.ObjectId,
-    createdAt: string,
-    thoughtText: string,
-    username: string,
+interface IReaction extends Document {
+    reactionId: Schema.Types.ObjectId,
+    reactionBody: string,
+    createdAt: Schema.Types.Date, 
+    username: string
 }
 
-interface IReaction extends Document {
-    reactionId: ,
-    reactionBody: string,
-    createdAt: date
+interface IThought extends Document {
+    createdAt: Schema.Types.Date,
+    thoughtText: string,
+    username: string,
+    reactions: [typeof reactionSchema]
 }
+
 
 const reactionSchema = new Schema<IReaction>({
     reactionId: {
@@ -40,10 +42,6 @@ const reactionSchema = new Schema<IReaction>({
 
 const thoughtSchema = new Schema<IThought>(
     {
-        thoughtId: {
-            type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId(),
-        },
         createdAt: {
             type: Date,
             default: Date.now(),

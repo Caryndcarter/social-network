@@ -2,7 +2,6 @@ import { Schema, model, type Document } from 'mongoose';
 import isEmail from 'validator/lib/isEmail';
 
 interface IUser extends Document {
-    //_id: ObjectId,
     username: string,
     email: string,
     start: Date,

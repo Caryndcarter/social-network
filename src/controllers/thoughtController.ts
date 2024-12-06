@@ -1,6 +1,6 @@
 // ObjectId() method for converting studentId string into an ObjectId for querying database
 import { ObjectId } from 'mongodb';
-import { Student, Course } from '../models/index.js';
+import { User, Thought } from '../models/index.js';
 import { Request, Response } from 'express';
 
 // TODO: Create an aggregate function to get the number of students overall
@@ -90,9 +90,13 @@ export const getStudentById = async (req: Request, res: Response) => {
  * @returns a single Student object
 */
 
-export const createStudent = async (req: Request, res: Response) => {
+export const createThought = async (req: Request, res: Response) => {
     try {
-        const student = await Student.create(req.body);
+        const thought = await Thought.create(req.body);
+        if(thought){
+            User.findByIdAndUpdate
+        }
+
         res.json(student);
     } catch (err) {
         res.status(500).json(err);
@@ -106,7 +110,7 @@ export const createStudent = async (req: Request, res: Response) => {
 
 export const deleteStudent = async (req: Request, res: Response) => {
     try {
-        const student = await Student.findOneAndDelete({ _id: req.params.studentId });
+        const student = await User.findOneAndDelete({ _id: req.params.studentId });
 
         if (!student) {
             return res.status(404).json({ message: 'No such student exists' });
