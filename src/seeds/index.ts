@@ -1,5 +1,5 @@
-import db from '../config/connection.js';
-import { Course, Student } from '../models/index.js';
+/*import db from '../config/connection.js';
+import { Course, Thought } from '../models/index.js';
 import cleanDB from './cleanDB.js';
 import { getRandomName, getRandomAssignments } from './data.js';
 
@@ -8,9 +8,9 @@ try {
   await cleanDB();
 
   // Create empty array to hold the students
-  const students = [];
+  const thoughts = [];
 
-  // Loop 20 times -- add students to the students array
+  // Loop 20 times -- add thoughts to the thoughts array
   for (let i = 0; i < 20; i++) {
     // Get some random assignment objects using a helper function that we imported from ./data
     const assignments = getRandomAssignments(20);
@@ -47,3 +47,4 @@ try {
   process.exit(1);
 }
 
+*/
