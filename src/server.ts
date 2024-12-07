@@ -4,7 +4,7 @@ import db from './config/connection.js';
 
 await db();
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3004;
 const app = express();
 
 app.use(express.urlencoded({ extended: true}));

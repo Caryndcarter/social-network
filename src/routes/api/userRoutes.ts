@@ -8,10 +8,10 @@ import {
   deleteUser,
 } from '../../controllers/userController.js';
 
-// /api/user
+// /api/users
 router.route('/').get(getAllUsers).post(createUser);
 
-// /api/user/:userId
+// /api/users/:userId
 router
   .route('/:userId')
   .get(getUserById)

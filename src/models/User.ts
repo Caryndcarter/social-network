@@ -1,11 +1,9 @@
 import { Schema, model, type Document } from 'mongoose';
-import isEmail from 'validator/lib/isEmail';
+import isEmail from 'validator/lib/isEmail.js';
 
 interface IUser extends Document {
     username: string,
     email: string,
-    start: Date,
-    end: Date,
     thoughts: Schema.Types.ObjectId[], 
     friends: Schema.Types.ObjectId[]
 }

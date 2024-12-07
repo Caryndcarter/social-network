@@ -40,16 +40,18 @@ export const getUserById = async (req: Request, res: Response) => {
   };
 
   /**
- * POST User /user
+ * POST User /users
  * @param object username, email
  * @returns a single User object
 */
 export const createUser = async (req: Request, res: Response) => {
     const { user } = req.body;
+    console.log(user); 
     try {
       const newUser = await User.create({
         user
       });
+     
       res.status(201).json(newUser);
     } catch (error: any) {
       res.status(400).json({
