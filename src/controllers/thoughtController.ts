@@ -25,9 +25,9 @@ export const getAllThoughts = async (_req: Request, res: Response) => {
  * @returns a single Thought object
 */
 export const getThoughtById = async (req: Request, res: Response) => {
-    const { studentId } = req.params;
+    const { thoughtId } = req.params;
     try {
-        const thought = await Thought.findById(studentId);
+        const thought = await Thought.findById(thoughtId);
         if (thought) {
             res.json({
                 thought
@@ -54,7 +54,10 @@ export const createThought = async (req: Request, res: Response) => {
     try {
         const thought = await Thought.create(req.body);
         if(thought){
-            User.findByIdAndUpdate
+                 await User.findOneAndUpdate(
+                  { _id: req.body.userId},
+                  { $push: {thoughts: thought._id} },
+                  { runValidators: true, new: true })
         }
 
         res.json(thought);
@@ -73,6 +76,26 @@ export const createThought = async (req: Request, res: Response) => {
 */
 
 
+export const updateThought = async (req: Request, res: Response) => {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $set: req.body },
+        { runValidators: true, new: true }
+      );
+
+      if (!thought) {
+        res.status(404).json({ message: 'No thought with this id!' });
+      }
+
+      res.json(thought)
+    } catch (error: any) {
+      res.status(400).json({
+        message: error.message
+      });
+    }
+  };
+
 /**
  * DELETE Thought based on id /thoughts/:id
  * @param string id
@@ -88,7 +111,7 @@ export const deleteThought = async (req: Request, res: Response) => {
         }
 
         const user = await User.findOneAndUpdate(
-            { thoughts: req.params.thoughtId },
+            { _id: req.params.userId },
             { $pull: { thoughts: req.params.thoughtId } },
             { new: true }
         );

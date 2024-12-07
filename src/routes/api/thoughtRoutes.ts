@@ -5,6 +5,7 @@ import {
   getThoughtById,
   createThought,
   deleteThought,
+  updateThought,
   addReaction,
   removeReaction
 } from '../../controllers/thoughtController.js';
@@ -13,7 +14,7 @@ import {
 router.route('/').get(getAllThoughts).post(createThought);
 
 // /api/thought/:thoughtId
-router.route('/:thoughtId').get(getThoughtById).delete(deleteThought);
+router.route('/:thoughtId').get(getThoughtById).delete(deleteThought).put(updateThought);
 
 // /api/thoughts/:thoughtId/reactions
 router.route('/:thoughtId/reactions').post(addReaction);
