@@ -13,7 +13,7 @@ import {
 // /api/thoughts
 router.route('/').get(getAllThoughts).post(createThought);
 
-// /api/thought/:thoughtId
+// /api/thoughts/:thoughtId
 router.route('/:thoughtId').get(getThoughtById).delete(deleteThought).put(updateThought);
 
 // /api/thoughts/:thoughtId/reactions

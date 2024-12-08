@@ -1,5 +1,3 @@
-// ObjectId() method for converting studentId string into an ObjectId for querying database
-//import { ObjectId } from 'mongodb';
 import { User, Thought } from '../models/index.js';
 import { Request, Response } from 'express';
 
@@ -70,12 +68,16 @@ export const createThought = async (req: Request, res: Response) => {
   // example data
   {
     "thoughtText": "Here's a cool thought...",
-    "username": "lernantino",
+    "username": "caryn",
     "userId": "5edff358a0fcb779aa7b118b"
   }
 */
 
-
+/**
+ * PUT Thought /thoughts/:thoughtId
+ * @param object thought
+ * @returns a single Thought object
+*/
 export const updateThought = async (req: Request, res: Response) => {
     try {
       const thought = await Thought.findOneAndUpdate(
@@ -96,12 +98,12 @@ export const updateThought = async (req: Request, res: Response) => {
     }
   };
 
+
 /**
- * DELETE Thought based on id /thoughts/:id
+ * DELETE Thought based on id /thoughts/:thoughtId
  * @param string id
  * @returns string 
 */
-
 export const deleteThought = async (req: Request, res: Response) => {
     try {
         const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
@@ -111,18 +113,19 @@ export const deleteThought = async (req: Request, res: Response) => {
         }
 
         const user = await User.findOneAndUpdate(
-            { _id: req.params.userId },
+            { thoughts: req.params.thoughtId},
             { $pull: { thoughts: req.params.thoughtId } },
             { new: true }
         );
 
+        
         if (!user) {
             return res.status(404).json({
                 message: 'Thought deleted, but no user found',
             });
-        }
+        } 
 
-        return res.json({ message: 'Thought successfully deleted' });
+        return res.json({ message: 'Thought successfully deleted and removed from user' });
     } catch (err) {
         console.log(err);
         return res.status(500).json(err);
@@ -137,8 +140,6 @@ export const deleteThought = async (req: Request, res: Response) => {
 */
 
 export const addReaction = async (req: Request, res: Response) => {
-    console.log('You are adding a reaction');
-    console.log(req.body);
     try {
         const thought = await Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
@@ -149,7 +150,7 @@ export const addReaction = async (req: Request, res: Response) => {
         if (!thought) {
             return res
                 .status(404)
-                .json({ message: 'No thought found with that ID :(' });
+                .json({ message: 'No thought found with that ID' });
         }
 
         return res.json(thought);
@@ -158,8 +159,15 @@ export const addReaction = async (req: Request, res: Response) => {
     }
 }
 
+/*
+  // example data
+  {
+    "reactionBody": "LOL"
+  }
+*/
+
 /**
- * DELETE Reaction based on /thoughts/:thoughtId/reactions
+ * DELETE Reaction based on /thoughts/:thoughtId/reactions/:reactionId
  * @param string reactionId
  * @param string thoughtId
  * @returns object thought
@@ -176,7 +184,7 @@ export const removeReaction = async (req: Request, res: Response) => {
         if (!thought) {
             return res
                 .status(404)
-                .json({ message: 'No thought found with that ID :(' });
+                .json({ message: 'No thought found with that ID' });
         }
 
         return res.json(thought);

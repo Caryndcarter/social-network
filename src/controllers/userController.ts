@@ -46,12 +46,9 @@ export const getUserById = async (req: Request, res: Response) => {
 */
 export const createUser = async (req: Request, res: Response) => {
     const user = req.body;
-    console.log(req.body); 
     try {
       const newUser = await User.create(user);
      
-      console.log('Headers:', req.headers);
-      console.log('Body (raw):', req.body);
       res.status(201).json(newUser);
     } catch (error: any) {
       res.status(400).json({
@@ -63,14 +60,14 @@ export const createUser = async (req: Request, res: Response) => {
 /* 
   ```json
   {
-    "username": "lernantino",
-    "email": "lernantino@gmail.com"
+    "username": "caryn",
+    "email": "caryn@gmail.com"
   }
   ```
 */
 
 /**
- * PUT User based on id /user/:id
+ * PUT User based on id /users/:id
  * @param object id, username
  * @returns a single User object
 */
@@ -95,7 +92,7 @@ export const updateUser = async (req: Request, res: Response) => {
   };
 
   /**
- * DELETE User based on id /user/:id
+ * DELETE User based on id /users/:id
  * @param string id
  * @returns string 
 */
@@ -109,7 +106,7 @@ export const deleteUser = async (req: Request, res: Response) => {
         });
       } else {
         await Thought.deleteMany({ _id: { $in: user.thoughts } });
-        res.json({ message: 'User deleted!' });
+        res.json({ message: 'User deleted and associated thoughts deleted!' });
       }
       
     } catch (error: any) {
@@ -120,6 +117,11 @@ export const deleteUser = async (req: Request, res: Response) => {
   };
 
 
+  /**
+ * POST friend /users/:userId/friends/:friendId
+ * @param object userID
+ * @returns a single User object
+*/
   export const addFriend = async (req: Request, res: Response) => {
 
     try {
@@ -132,7 +134,7 @@ export const deleteUser = async (req: Request, res: Response) => {
         if (!friend) {
             return res
                 .status(404)
-                .json({ message: 'No friend found with that ID :(' });
+                .json({ message: 'No friend found with that ID' });
         }
 
         return res.json(friend);
@@ -141,6 +143,12 @@ export const deleteUser = async (req: Request, res: Response) => {
     }
 }
 
+
+  /**
+ * DELETE friend /users/:userId/friends/:friendId
+ * @param object userID
+ * @returns a single User object
+*/
 
 export const removeFriend = async (req: Request, res: Response) => {
 
@@ -154,7 +162,7 @@ export const removeFriend = async (req: Request, res: Response) => {
       if (!friend) {
           return res
               .status(404)
-              .json({ message: 'No friend found with that ID :(' });
+              .json({ message: 'No friend found with that ID' });
       }
 
       return res.json(friend);
