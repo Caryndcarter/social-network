@@ -22,7 +22,7 @@ After downloading or cloning this repo, make sure you have Node installed and ru
 
 ## Usage
 
-Begin by running ``npm run start`` in the command line. From there you can visit https://localhost3000 and checkout Postman or Insomia to go through all the routes.  
+Begin by running ``npm run start`` in the command line. From there you can visit http://localhost3000 and checkout Postman or Insomia to go through all the routes.  
 
  Some of the Routes include:
 1. getAllUsers, 
